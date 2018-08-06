@@ -1,0 +1,238 @@
+<div class="page-header">
+<h2>{{title}}</h2>
+</div>
+
+
+<div class="panel panel-primary">
+<div class="panel-heading">
+<h3 class="panel-title"><a data-toggle="collapse" href="#tokenTester" aria-expanded="true" aria-controls="tokenTester">{{title}}</a></h3>
+</div>
+<div class="panel-body collapse in" id="tokenTester">
+
+<p>This is a sample tester to call the different methods for the OAuth Token Endpoint.</p>
+
+<form class="form">
+  
+  <div class="form-group">
+    <label for="service_key">service_key</label>
+    <input type="text" class="form-control" name="service_key" id="service_key" 
+      placeholder="Service Key (Mashery specific parameter)" value="{{serviceKey}}"/>
+  </div>
+  <div class="form-group">
+    <label for="client_id">client_id</label>
+    <input type="text" class="form-control" name="client_id" id="client_id" 
+      placeholder="Application API Key" value="{{clientId}}"/>
+  </div>
+  <div class="form-group">
+    <label for="client_secret">client_secret</label>
+    <input type="password" class="form-control" name="client_secret" id="client_secret" 
+      placeholder="Application API Secret" value="{{clientSecret}}"/>
+  </div>
+  <div class="form-group">
+    <label for="grant_type">grant_type</label>
+    <select class="form-control" id="grant_type">
+      <option>authorization_code</option>
+      <option>password</option>
+      <option>client_credentials</option>
+      <option>refresh_token</option>
+    </select>
+  </div>
+  <div class="form-group" id="formCode">
+    <label for="code">code</label>
+    <input type="text" class="form-control" name="code" id="code" 
+      placeholder="Authorization Code"/>
+  </div>
+  <div class="form-group" id="formRedirectUri">
+    <label for="redirect_uri">redirect_uri</label>
+    <input type="text" class="form-control" name="redirect_uri" id="redirect_uri" 
+      placeholder="Redirect URI. Must match original value."/>
+  </div>
+  <div class="form-group" id="formUsername">
+    <label for="username">username</label>
+    <input type="text" class="form-control" name="username" id="username" 
+      placeholder="Username"/>
+  </div>
+  <div class="form-group" id="formPassword">
+    <label for="password">password</label>
+    <input type="password" class="form-control" name="password" id="password" 
+      placeholder="Password"/>
+  </div>
+  <div class="form-group" id="formRefreshToken">
+    <label for="refresh_token">refresh_token</label>
+    <input type="text" class="form-control" name="refresh_token" id="refresh_token" 
+      placeholder="Refresh Token"/>
+  </div>
+  <div class="form-group" id="formScope">
+    <label for="scope">scope</label>
+    <input type="text" class="form-control" name="scope" id="scope" 
+      placeholder="(Optional) Scope"/>
+  </div>
+
+
+</form>
+
+  <button class="btn btn-primary" id="tryRequest">Try Request</button>
+
+
+</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<h3 class="panel-title"><a data-toggle="collapse" href="#reqDetails" aria-expanded="true" aria-controls="reqDetails">Request Details</a></h3>
+	</div>
+	<div class="panel-body collapse in" id="reqDetails">
+		<h4>Request URL</h4>
+		<pre id="reqUrl"></pre>
+		<h4>Request Headers</h4>
+		<pre id="reqHeaders"></pre>
+		<h4>Request Message</h4>
+		<pre id="reqMessage"></pre>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<h3 class="panel-title"><a data-toggle="collapse" href="#resDetails" aria-expanded="true" aria-controls="resDetails">Response Details</a></h3>
+	</div>
+	<div class="panel-body collapse in" id="resDetails">
+		<h4>Response Status</h4>
+		<pre id="resStatus"></pre>
+		<h4>Response Headers</h4>
+		<pre id="resHeaders"></pre>
+		<h4>Response Message</h4>
+		<pre id="resMessage"></pre>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<h3 class="panel-title"><a data-toggle="collapse" href="#tokenUpdate" aria-expanded="false" aria-controls="tokenUpdate">Token Update</a></h3>
+	</div>
+	<div class="panel-body collapse" id="tokenUpdate">
+		<p>Once a new access token is generated, it would be viable for the OAuth server to want to change the default expiry for a token. This is to provide a simulation of the call that the OAuth server can make subsequent to calling the Mashery createAccessToken method.</p>
+		<p id="tokenButton">A button will appear here after an access token is generated from the above client tester.</p>
+	</div>
+</div>
+
+
+<script>
+$(document).ready(function(){
+	$('#formUsername').hide();
+	$('#formPassword').hide();
+	$('#formRefreshToken').hide();
+	
+	$('#grant_type').on('change', function(){
+		if (this.value == 'authorization_code') {
+			$('#formCode').slideDown();	
+			$('#formRedirectUri').slideDown();	
+			$('#formUsername').slideUp();
+			$('#formPassword').slideUp();
+			$('#formRefreshToken').slideUp();
+		} else if (this.value == 'password') {
+			$('#formCode').slideUp();	
+			$('#formRedirectUri').slideUp();	
+			$('#formUsername').slideDown();
+			$('#formPassword').slideDown();
+			$('#formRefreshToken').slideUp();
+		} else if (this.value == 'client_credentials') {
+			$('#formCode').slideUp();	
+			$('#formRedirectUri').slideUp();	
+			$('#formUsername').slideUp();
+			$('#formPassword').slideUp();
+			$('#formRefreshToken').slideUp();		
+		} else if (this.value == 'refresh_token') {
+			$('#formCode').slideUp();	
+			$('#formRedirectUri').slideUp();	
+			$('#formUsername').slideUp();
+			$('#formPassword').slideUp();
+			$('#formRefreshToken').slideDown();
+		}
+	});
+	
+	$('#tryRequest').on('click', function(){
+		var req = 'grant_type=' + $('#grant_type').val();
+		
+		switch($('#grant_type').val()) {
+			case 'authorization_code':
+				req += '&code=' + $('#code').val();
+				req += '&redirect_uri=' + $('#redirect_uri').val();
+				break;
+			case 'password':
+				req += '&username=' + $('#username').val();
+				req += '&password=' + $('#password').val();
+				break;
+			case 'client_credentials':
+				break;
+			case 'refresh_token':
+				req += '&refresh_token=' + $('#refresh_token').val();
+				break;
+		}
+		
+		if ($('#scope').val() != '')
+			req += '&scope=' + $('#scope').val();
+		
+		reqUri = '{{oauthServerTokenUri}}/' + $('#service_key').val();
+		reqFullUrl = location.protocol + '://' + location.host + reqUri
+		headerAuth = "Basic " + btoa($('#client_id').val() + ":" + 
+			$('#client_secret').val());
+			
+		//console.log(req);		
+		$('#reqUrl').html(reqFullUrl);
+		$('#reqHeaders').html('Authorization: ' + headerAuth + '\n' +
+			'Content-Type: application/x-www-form-urlencoded; charset=UTF-8');
+		$('#reqMessage').html(req);
+
+		$.ajax({
+  			type: 'POST',
+  			url: reqUri,
+  			data: req,
+  			beforeSend: function(xhr) {
+  				xhr.setRequestHeader("Authorization", headerAuth);
+  			},
+  			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+  			success: function(res, status, xhr){
+  				//console.log(JSON.stringify(res, null, '  '));
+  				$('#resStatus').html(xhr.status + ' ' + xhr.statusText);
+  				$('#resHeaders').html(xhr.getAllResponseHeaders());
+  				$('#resMessage').html(JSON.stringify(res));
+
+				var html = '<h4>Update Expiry for Token ' + res.access_token;
+				html += '</h4><div class="form-group"><label for="expiry">expiry</label>';
+				html += '<input type="text" class="form-control" name="expiry" ';
+				html += 'id="expiry" placeholder="Number of seconds from now"/></div>';
+				html += '<button type="button" class="btn btn-default" ';
+				html += 'onclick="updateToken(\'' + res.access_token + '\', \'';
+				html += res.access_token + '\')">Update Token Expiry</button>';
+				html += '<br/><br/><div id="updateTokenStatus"></div>';
+  				$('#tokenButton').html(html);
+
+  			},
+  			error: function(xhr, status, err){
+  				$('#resStatus').html(xhr.status + ' ' + xhr.statusText);
+  				$('#resHeaders').html(xhr.getAllResponseHeaders());
+  				$('#resMessage').html(xhr.responseText);
+  			},
+  			dataType: 'json'
+		});
+		
+	});
+});
+
+function updateToken(accessToken) {
+	reqUri = '{{oauthTokenStatusUri}}/updateAccessToken';
+	reqUri += '?service_key=' + $('#service_key').val();
+	reqUri += '&client_id=' + $('#client_id').val();
+	reqUri += '&client_secret=' + $('#client_secret').val();
+	reqUri += '&access_token=' + accessToken;
+	reqUri += '&expiry=' + $('#expiry').val();
+
+	$.get(reqUri, function(res) {
+		console.log('Response:' + JSON.stringify(res));
+		if (res.error) {
+			$('#updateTokenStatus').html('<div class="alert alert-danger" role="alert">Internal Error</div>');
+		} else {
+			$('#updateTokenStatus').html('<div class="alert alert-success" role="alert">Access Token <b>' + accessToken + '</b> updated with <pre>' + JSON.stringify(res) + '</pre></div>');
+		}
+	});
+}
+</script>

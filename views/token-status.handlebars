@@ -1,0 +1,215 @@
+<div class="page-header">
+<h2>{{title}}</h2>
+</div>
+
+
+<div class="panel panel-primary">
+<div class="panel-heading">
+<h3 class="panel-title">{{title}}</h3>
+</div>
+<div class="panel-body">
+
+<p>This is a sample tester to check for existing applications that are linked to a specific user and allowing the user to revoke each token. Given that this example does not have an actual identity management system behind it, you can simply enter in the username, which is what is used for the user_context, to continue.</p>
+
+  <div class="form-group">
+    <label for="service_key">service_key</label>
+    <input type="text" class="form-control" name="service_key" id="service_key" 
+      placeholder="Service Key (Mashery specific parameter)" value="{{serviceKey}}"/>
+  </div>
+
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" class="form-control" name="username" id="username" 
+      placeholder="Enter in your username"/>
+  </div>
+
+  <button class="btn btn-primary" id="lookupTokens">Lookup Access Tokens</button>
+
+  <br/><br/>
+  <div id="results">
+  
+  </div>
+  
+  <div id="tokenDetails">
+  
+  </div>
+
+
+</div>
+</div>
+
+
+<!-- 
+This section is here only for providing helpful hints around
+understanding how to create an OAuth Server
+-->
+
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title"><a data-toggle="collapse" href="#helpfulHints" aria-expanded="false" aria-controls="helpfulHints">Helpful Hints</a></h3>
+</div>
+<div class="panel-body collapse" id="helpfulHints">
+You may notice that after revoking a token, the token will still appear among the list of tokens that are retrieved via fetchUserApplications. You may want to note that the revocation process will still retain the token, but change the expiry such that the token is still in the system but considered invalid.
+
+<ul>
+<li>
+For more details on the fetchUserApplications Mashery Platform API method called, <a href="http://support.mashery.com/docs/read/mashery_api/20/oauth_supporting_methods/methods/fetchUserApplications">click here</a> for more information.
+</li>
+
+<li>
+For more details on the revokeAccessToken Mashery Platform API method called, <a href="http://support.mashery.com/docs/read/mashery_api/20/oauth_supporting_methods/methods/revokeAccessToken">click here</a> for more information.
+</li>
+
+<li>
+For more details on the revokeUserApplication Mashery Platform API method called, <a href="http://support.mashery.com/docs/read/mashery_api/20/oauth_supporting_methods/methods/revokeUserApplication">click here</a> for more information.
+</li>
+
+<li>
+For more details on the updateAccessToken Mashery Platform API method called, <a href="http://support.mashery.com/docs/read/mashery_api/20/oauth_supporting_methods/methods/updateAccessToken">click here</a> for more information.
+</li>
+</ul>
+
+</div>
+</div>
+
+
+
+<script>
+$(document).ready(function(){
+	
+	$('#lookupTokens').on('click', function(){
+
+				
+		reqUri = '{{baseUri}}/fetchUserApplications';
+		reqUri += '?service_key=' + $('#service_key').val();
+		reqUri += '&user_context=' + $('#username').val();
+			
+		$.get(reqUri, function(res) {
+			console.log('Response:' + JSON.stringify(res));
+			if (res.error) {
+				$('#results').html('<div class="alert alert-danger" role="alert">Internal Error</div>');
+				$('#tokenDetails').html('');
+			} else if (res.result.length == 0) {
+				$('#results').html('<div class="alert alert-info" role="alert">No results found</div>');
+				$('#tokenDetails').html('');
+			} else if (res.result.length > 0) {
+				var html = '<table class="table table-striped"><thead>';
+				html += '<tr><th>Application Name</th><th>Client ID</th>';
+				html += '<th>Access Tokens</th><th>Revoke?</th></tr></thead><tbody>';
+				
+				res.result.forEach(function(item) {
+					html += '<tr><td>' + item.name + '</td><td>' + item.client_id;
+					html += '</td><td>';
+					
+					item.access_tokens.forEach(function(accessToken) {
+						html += '<button type="button" class="btn btn-default" ';
+						html += 'onclick="tokenDetail(\'' + accessToken + '\')">';
+						html += accessToken + '</button> ';
+					});
+					html += '</td><td><button type="button" class="btn btn-default" ';
+					html += 'onclick="revokeApp(\'' + item.client_id + '\')">'; 
+					html += 'Revoke All</button></td></tr>';
+				});
+				
+				html += '</tbody></table>';
+				$('#results').html(html);
+				
+			}
+		});
+		
+		/*
+{"jsonrpc":"2.0","result":[{"id":615966,"name":"Product OAuth App","client_id":"ud5bsqcnx6n6te2gg343hybd","access_tokens":["4a3s7jmxtufvhtgkptbxfr9z","qs5px24s87qa5d5j4b44w3m8","sf37eu4syaekfeu76fzvnxup","ce37razy4ujmf72zxj7x9t9u","vpshz9j4qf2z9stgjsjbpew5","bv8u5ax6yz4duq9j4javd6xb","m7kkuehbcbdh98pfhvw8mb85","mgxab4pa2c7qh47ch6zvutzz"]}],"id":1}
+
+		*/
+	});
+});
+
+function tokenDetail(accessToken) {
+	reqUri = '{{baseUri}}/fetchAccessToken';
+	reqUri += '?service_key=' + $('#service_key').val();
+	reqUri += '&access_token=' + accessToken;
+
+	$.get(reqUri, function(res) {
+		console.log('Response:' + JSON.stringify(res));
+		if (res.error) {
+			$('#tokenDetails').html('<div class="alert alert-danger" role="alert">Internal Error</div>');
+		} else {
+			var html = '<div class="panel panel-primary"><div class="panel-heading">';
+			html += '<h4 class="panel-title">Token Details for ' + accessToken;
+			html += '</h4></div><div class="panel-body"><pre>';
+			html += JSON.stringify(res.result, null, '  ');
+			/*for (var key in res.result) {
+				html += '<b>' + key + '</b>: ' + res.result[key] + '<br/>';
+			}*/
+			html += '</pre><button type="button" class="btn btn-default" ';
+			html += 'onclick="revokeToken(\'' + accessToken + '\', \'';
+			html += res.result.client_id + '\')">Revoke ';
+			html += accessToken + '</button><p id="revokeStatus"></p></div></div>';
+
+			$('#tokenDetails').html(html);
+		}
+	});
+}
+
+function revokeToken(accessToken, clientId) {
+	reqUri = '{{baseUri}}/revokeAccessToken';
+	reqUri += '?service_key=' + $('#service_key').val();
+	reqUri += '&access_token=' + accessToken;
+	reqUri += '&client_id=' + clientId;
+
+	$.get(reqUri, function(res) {
+		console.log('Response:' + JSON.stringify(res));
+		if (res.error) {
+			$('#revokeStatus').html('<div class="alert alert-danger" role="alert">Internal Error</div>');
+		} else {
+			$('#revokeStatus').html('<div class="alert alert-success" role="alert">Access Token <b>' + accessToken + '</b> Revoked</div>');
+		}
+	});
+}
+
+function revokeApp(clientId) {
+	reqUri = '{{baseUri}}/revokeUserApplication';
+	reqUri += '?service_key=' + $('#service_key').val();
+	reqUri += '&client_id=' + clientId;
+	reqUri += '&user_context=' + $('#username').val();
+
+	$.get(reqUri, function(res) {
+		console.log('Response:' + JSON.stringify(res));
+		if (res.error) {
+			$('#tokenDetails').html('<div class="alert alert-danger" role="alert">Internal Error</div>');
+		} else {
+			$('#tokenDetails').html('<div class="alert alert-success" role="alert">All tokens for application <b>' + clientId + '</b> revoked</div>');
+		}
+	});
+}
+</script>
+
+<!--
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<h3 class="panel-title"><a data-toggle="collapse" href="#reqDetails" aria-expanded="true" aria-controls="reqDetails">Request Details</a></h3>
+	</div>
+	<div class="panel-body collapse in" id="reqDetails">
+		<h4>Request URL</h4>
+		<pre id="reqUrl"></pre>
+		<h4>Request Headers</h4>
+		<pre id="reqHeaders"></pre>
+		<h4>Request Message</h4>
+		<pre id="reqMessage"></pre>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<h3 class="panel-title"><a data-toggle="collapse" href="#resDetails" aria-expanded="true" aria-controls="resDetails">Response Details</a></h3>
+	</div>
+	<div class="panel-body collapse in" id="resDetails">
+		<h4>Response Status</h4>
+		<pre id="resStatus"></pre>
+		<h4>Response Headers</h4>
+		<pre id="resHeaders"></pre>
+		<h4>Response Message</h4>
+		<pre id="resMessage"></pre>
+	</div>
+</div>
+-->
+

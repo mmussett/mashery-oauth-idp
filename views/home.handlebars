@@ -1,0 +1,60 @@
+<h2>{{title}}</h2>
+
+<div>
+<p>This is an example implementation of an OAuth Authorization Server using Node.js integrating with the Mashery Platform OAuth APIs.</p>
+
+<p>
+List of relevant links:
+<ul>
+<li><a href="{{oauthServerAuthUri}}/{{serviceKey}}">Authorization Endpoint ({{oauthServerAuthUri}}/:serviceKey)</a> - The Authorization endpoint for where the user logs in. You can try going directly here, but may initially get a 404 if the clientServiceKey is not configured in the properties.js file. With the service key in the URL, you will also need to specific query parameters that are required to call the Authorization Endpoint. You can click through and see the Helpful Hints section for more info.</li>
+<li><a href="{{oauthServerTokenUri}}/{{serviceKey}}">Token Endpoint ({{oauthServerTokenUri}}/:serviceKey)</a> - The Token endpoint is the "API" of the OAuth Authorization Server. You can try going directly here, but will get an error. If you get a 404, make sure to include the serviceKey in the URL. You can use the Sample OAuth Test Client, which calls this endpoint directly.</li>
+<li><a href="{{oauthTokenTesterUri}}">Sample OAuth Test Client ({{oauthTokenTesterUri}})</a> - You can try calling the token endpoint using this test client. This can be useful for trying the last step in the Authorization Code grant (after you've called the Authorization endpoint and received an authorization code) as well as trying Resource Owner Password Credential, Client Credential, or Refresh Token grant types.</li>
+<li><a href="{{oauthTokenStatusUri}}">Sample User Managed Token Status ({{oauthTokenStatusUri}})</a> - Here you can look up tokens associated to a specific user and different apps. You can revoke tokens from this page. The other item that is available is to update the expiry on a specific token. This is typically not something that you would allow to be done by the end user. However, it is created here only for illustration where the use case would be that the authorization server would want to update the expiry based on the level of trust of each client, given the default expiry is hard coded.</li>
+
+</ul>
+</p>
+
+<h3>IO Docs Integration</h3>
+<div>If you are simply running this on localhost, when using this with IO Docs, the authorization endpoint can be used as-is because it does a browser redirect, which can expose localhost. However, the token endpoint is called through a proxy on IO Docs, which would not have access to your localhost token endpoint. If you want to integrate this with IO Docs, you have 1 of 2 options:</div>
+
+<h5>Option 1: Expose this service on an externally facing hostname</h5>
+It's possible to host this service on a server, or you can run on your laptop and potentially run <a href="https://ngrok.com/" target="_blank">ngrok</a> to create a tunnel back to your localhost. Below is what your "auth" object may look like with this option.
+<pre>
+    "auth": {
+        "oauth": {
+            "version": "2.0",
+            "base_uri": "http://your-subdomain.ngrok.com:8765",
+            "authorize_uri": "{{oauthServerAuthUri}}/your-service-key",
+            "access_token_uri": "{{oauthServerTokenUri}}/your-service-key",
+            "auth_flows": [
+                "auth_code",
+                "implicit",
+                "password",
+                "client_cred"
+            ],
+            "options": {}
+        }
+    },
+</pre>
+
+<h5>Option 2: Enable the token endpoint on Mashery</h5>
+If you don't want to host this externally or run ngrok, you can also use the token endpoint on Mashery. In this case, you wouldn't set a base_uri on the "auth" object of IO Docs. Note that Resource Owner Password Credential would not be supported using this method. Below is what your "auth" object may look like with this option. 
+<pre>
+    "auth": {
+        "oauth": {
+            "version": "2.0",
+            "base_uri": "",
+            "authorize_uri": "http://localhost:3000{{oauthServerAuthUri}}/your-service-key",
+            "access_token_uri": "http://your-area.api.mashery.com/your-access-token-uri",
+            "auth_flows": [
+                "auth_code",
+                "implicit",
+                "password",
+                "client_cred"
+            ],
+            "options": {}
+        }
+    },
+</pre>
+
+</div>

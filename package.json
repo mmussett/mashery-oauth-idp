@@ -1,0 +1,26 @@
+{
+  "name": "mash-sample-oauth-idp",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Sample OAuth IDP integrating with the Mashery OAuth API",
+  "main": "app.js",
+  "dependencies": {
+    "basic-auth": "^1.0.1",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "helmet": "^3.12.1",
+    "morgan": "^1.9.0",
+    "node-loggly-bulk": "^2.2.3",
+    "node-rest-client": "^3.1.0",
+    "npm": "^6.1.0",
+    "soap": "^0.24.0",
+    "winston": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eurus Kim",
+  "license": "ISC"
+}

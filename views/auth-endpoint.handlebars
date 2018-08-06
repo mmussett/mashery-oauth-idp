@@ -1,0 +1,143 @@
+<div class="page-header">
+<h2>{{title}}</h2>
+</div>
+
+<div class="panel panel-primary">
+<div class="panel-heading">
+<h3 class="panel-title">Login Form</h3>
+</div>
+<div class="panel-body">
+
+{{#if appName}}
+<div class="alert alert-info" role="alert">You've been directed here from an app named <b>{{appName}}</b>, which has the client_id "{{clientId}}". 
+<br/>The app is requesting access to 
+{{#if scope}}
+the scope of <b>{{scope}}</b>.
+{{else}}
+your data.
+{{/if}}
+</p>
+
+</div>
+{{else}}
+<div class="alert alert-danger" role="alert">The fetchApplication API call to the Mashery Platform API failed with: <b>{{error}}</b></div>
+{{/if}}
+
+<form class="form" action="{{{path}}}" method="POST">
+  <input type="hidden" name="app_name" value="{{appName}}"/>
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" class="form-control" name="username" id="username" 
+      placeholder="Your Username"/>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" name="password" id="password" 
+      placeholder="Your Password"/>
+  </div>
+  <button type="submit" class="btn btn-primary" 
+  {{#if disableForm}}
+  disabled
+  {{/if}}
+  >Log in and allow access</button>
+  <a id="cancel" class="btn btn-default" href="{{baseUrl}}/cancel?redirect_uri={{redirectUri}}">Don't allow access</a>
+</form>
+
+{{#if disableForm}}
+<div class="alert alert-danger" role="alert">You are missing a required parameter and will not be able to continue.</div>
+{{/if}}
+
+</div>
+</div>
+
+
+<!-- 
+This section is here only for providing helpful hints around
+understanding how to create an OAuth Server
+-->
+
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title"><a data-toggle="collapse" href="#helpfulHints" aria-expanded="false" aria-controls="helpfulHints">Helpful Hints</a></h3>
+</div>
+<div class="panel-body collapse" id="helpfulHints">
+For the authorization endpoint, when making an authorization request, the 
+OAuth specification expects the following parameters as
+"application/x-www-form-urlencoded":
+<ul>
+<li><b>response_type</b> - This is <b>REQUIRED</b> and can be set to:
+  <ul>
+  <li><b>code</b> - This means that the grant type is Authorization Code
+    </li>
+  <li><b>token</b> - This means that the grant type is Implicit</i>
+  </ul>
+  </li>
+
+<li><b>client_id</b> - This is <b>REQUIRED</b> and is the client identifier,
+ or in Mashery terms, this is the API Key.</li>
+
+<li><b>redirect_uri</b> - This is OPTIONAL. This is where the authorization
+endpoint will redirect to once the authentication is complete.</li>
+
+<li><b>scope</b> - This is OPTIONAL. This is the scope that is typically
+requested by the client (application)</li>
+
+<li><b>state</b> - This is RECOMMENDED. This is an opaque value that maps to
+a state at which the request was in before being redirected to the
+authorization endpoint.</li>
+</ul>
+
+<div>
+From the query parameters, the values found are:
+<ul>
+  <li><b>response_type</b>: {{responseType}}</li>
+  <li><b>client_id</b>: {{clientId}}</li>
+  <li><b>redirect_uri</b>: {{redirectUri}}</li>
+  <li><b>scope</b>: {{scope}}</li>
+  <li><b>state</b>: {{state}}</li>
+</ul>
+</div>
+
+<div class="alert alert-warning" role="alert">
+<h4>Notes:</h4>
+<ul>
+<li>Typically, you would want to confirm the redirect_uri parameter to ensure that only certain applications can use this OAuth Server. This can be done by Mashery when the access_token is granted.
+{{#if redirectUri}}
+The <b>redirect_uri</b> parameter received is <b>{{redirectUri}}</b>.
+{{else}}
+No redirect_uri was received.
+{{/if}}
+</li>
+<li>The scope is not validated by Mashery, but can be used for additional authorization on the server. The scope can be stored on Mashery and associated with the access_token, such that the scope is received by the origin API.
+{{#if scope}}
+The <b>scope</b> received is <b>{{redirectUri}}</b>. 
+{{else}}
+No scope was received.
+{{/if}}
+</li>
+<li>The state is optional but recommended. Given that HTTP is stateless, the state parameter would be used to allow the user to get back to the exact state before leaving the client application.
+{{#if state}}
+The <b>state</b> received is <b>{{state}}</b>. 
+{{else}}
+No redirect_uri was received.
+{{/if}}
+</li>
+
+</ul>
+</div>
+
+<div>
+For more details on the fetchApplication Mashery Platform API method called, <a href="http://support.mashery.com/docs/read/mashery_api/20/oauth_supporting_methods/methods/fetchApplication">click here</a> for more information.
+</div>
+
+<div>
+<h4>Validating redirect_uri</h4>
+<ul>
+<li>When registering an application, you can set the parameter for "Register Callback URL", which maps to the redirect_uri. By default, Mashery does not validate the redirect_uri against this value. However, if you want to enable validation, you can enable the <b>Mandate Validation Against Pre-registered URL</b> option under the <b>Security Settings</b> of the API.</li>
+<li>Mashery requires <b>https</b> in the redirect_uri by default. If you want to disable this requirement, you can disable the <b>Force SSL Redirect</b> option under the <b>Security Settings</b> of the API.</li>
+</ul>
+</div>
+
+</div>
+</div>
+
