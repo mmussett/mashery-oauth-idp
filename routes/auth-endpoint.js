@@ -4,6 +4,8 @@ var mashApi = require('../lib/mashery-api-oauth.js');
 
 var internalIdp = require('../idp/internal.js');
 
+const util = require('util');
+
 // Initial Request to the Authorization Endpoint
 router.get('/:serviceKey', function (req, res, next) {
 
@@ -69,6 +71,13 @@ router.post('/:serviceKey', function (req, res, next) {
 
             if (authCode == true) {
 
+
+                var userContext = {
+                    username: req.body.username,
+                    identity: resp.identity
+                };
+
+                console.log(util.inspect(userContext, false, null));
 
                 mashApi.createAuthorizationCode(req.params.serviceKey,
                     req.query.client_id, req.query.redirect_uri, req.query.scope,

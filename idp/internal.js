@@ -1,5 +1,6 @@
 var soapClient = require('soap');
 var restClient = require('node-rest-client').Client;
+const util = require('util');
 
 var sambaLoginHost = '10.0.0.5';
 var sambaLoginPort = 8080;
@@ -20,9 +21,13 @@ function authApiCall(args, successCallback, errorCallback) {
     var req = client.post("http://35.159.8.83:8090/authenticate", opts, function(data, response) {
         console.log("\n##### Response from Auth Proxy API #####");
         console.log("Auth Proxy Response Status Code: " + response.statusCode)
-        console.log("Auth Proxy Data: "+ data);
 
-        successCallback(data);
+        if (response.statusCode == 401) {
+            errorCallback(Error('Not Authorized'));
+        }else {
+            console.log(util.inspect(data, false, null));
+            successCallback(data);
+        }
     });
 
 
@@ -69,13 +74,7 @@ async function authenticate(username, password) {
         };
         const authResult = await authApiCallWrapper(authArgs);
 
-        console.log(authResult)
-        if (authResult == "true") {
-            result = true;
-        } else {
-            result = false;
-        }
-        console.log('Auth Proxy returned: ' + authResult);
+        result = authResult;
 
     } catch(error) {
         console.log(error);
