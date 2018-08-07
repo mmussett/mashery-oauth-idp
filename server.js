@@ -114,6 +114,6 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(app.get('port'), function(){
-    console.log('OAuth server started on on https://localhost:8443' + '; press Ctrl-C to terminate.' );
+    console.log('OAuth server started on on http://localhost:8080' + '; press Ctrl-C to terminate.' );
 }); 
 
