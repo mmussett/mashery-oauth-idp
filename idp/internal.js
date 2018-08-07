@@ -2,11 +2,6 @@ var soapClient = require('soap');
 var restClient = require('node-rest-client').Client;
 const util = require('util');
 
-var sambaLoginHost = '10.0.0.5';
-var sambaLoginPort = 8080;
-var sambaLoginUrl = '/login';
-
-
 function authApiCall(args, successCallback, errorCallback) {
 
     var client = new restClient();

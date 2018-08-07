@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fe4490ba-13c0-428d-87a2-559ace3ae5ba" name="Default" comment="Added Auth Proxy call">
+    <list default="true" id="fe4490ba-13c0-428d-87a2-559ace3ae5ba" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/idp/internal.js" beforeDir="false" afterPath="$PROJECT_DIR$/idp/internal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/auth-endpoint.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/auth-endpoint.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -18,11 +17,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="auth-endpoint.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="auth-endpoint.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/auth-endpoint.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="27" lean-forward="true" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+            <state relative-caret-position="417">
+              <caret line="70" lean-forward="true" selection-start-line="70" selection-end-line="70" />
             </state>
           </provider>
         </entry>
@@ -59,20 +58,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="token-endpoint.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/token-endpoint.js">
+      <file leaf-file-name="internal.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/idp/internal.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="54" column="30" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
+            <state relative-caret-position="225">
+              <caret line="15" column="63" lean-forward="true" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="63" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="internal.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/idp/internal.js">
+      <file leaf-file-name="properties.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/properties.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="29" />
+            <state relative-caret-position="435">
+              <caret line="38" column="34" lean-forward="true" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="34" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -130,8 +132,8 @@
         <option value="$PROJECT_DIR$/routes/home.js" />
         <option value="$PROJECT_DIR$/views/layouts/main.handlebars" />
         <option value="$PROJECT_DIR$/lib/mashery-api-oauth.js" />
-        <option value="$PROJECT_DIR$/idp/internal.js" />
         <option value="$PROJECT_DIR$/routes/auth-endpoint.js" />
+        <option value="$PROJECT_DIR$/idp/internal.js" />
       </list>
     </option>
   </component>
@@ -279,7 +281,7 @@
       <updated>1531129605635</updated>
       <workItem from="1531129608809" duration="251000" />
       <workItem from="1531129872395" duration="48436000" />
-      <workItem from="1533569138739" duration="6266000" />
+      <workItem from="1533569138739" duration="6595000" />
     </task>
     <task id="LOCAL-00001" summary="Base">
       <created>1531131635109</created>
@@ -330,11 +332,18 @@
       <option name="project" value="LOCAL" />
       <updated>1533577528900</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="401 now handled.&#10;Set user context on authorisation token call to Mashery API.">
+      <created>1533674654683</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1533674654683</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54953000" />
+    <option name="totallyTimeSpent" value="55282000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1177" extended-state="0" />
@@ -382,7 +391,8 @@
     <MESSAGE value="Base" />
     <MESSAGE value="Added Auth Proxy call" />
     <MESSAGE value="Bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug" />
+    <MESSAGE value="401 now handled.&#10;Set user context on authorisation token call to Mashery API." />
+    <option name="LAST_COMMIT_MESSAGE" value="401 now handled.&#10;Set user context on authorisation token call to Mashery API." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -560,13 +570,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/properties.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="40" selection-start-line="40" selection-end-line="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/idp/temp" />
     <entry file="file://$PROJECT_DIR$/views/404.handlebars">
       <provider selected="true" editor-type-id="text-editor" />
@@ -623,6 +626,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/routes/auth-endpoint.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="70" lean-forward="true" selection-start-line="70" selection-end-line="70" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lib/mashery-api-oauth.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="816">
@@ -632,15 +642,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/idp/internal.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="29" />
+        <state relative-caret-position="225">
+          <caret line="15" column="63" lean-forward="true" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="63" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/auth-endpoint.js">
+    <entry file="file://$PROJECT_DIR$/properties.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="27" lean-forward="true" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+        <state relative-caret-position="435">
+          <caret line="38" column="34" lean-forward="true" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="34" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
