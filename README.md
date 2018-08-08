@@ -1,14 +1,27 @@
 # mashery-oauth-idp
 
+## Clone from git
+
+```
+git clone https://github.com/mmussett/mashery-oauth-idp.git
+```
 
 ## Building and Running the Mashery OAuth IDP
 
-1) Build the container
+User the helper scripts to do...
+
+<B>Build the container
 ```
-docker build -t mashery/oauth-idp .
+./build.sh
 ```
 
-2) Run it
+<B>Run it
 ```
-docker run -p 8080:8080 -d mashery/oauth-idp
+./run.sh
+```
+
+
+<B>Tear it down
+```
+./kill.sh
 ```
