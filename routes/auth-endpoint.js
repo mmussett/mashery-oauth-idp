@@ -44,10 +44,6 @@ router.get('/:serviceKey', function (req, res, next) {
 });
 
 // ##### This is when the form is POSTed to the OAuth Server
-// ## There is no IDP configured here, so the username is used for
-// ## user_context. You would inject an IDP in here if you wanted
-// ## to validate the resource owner's credentials
-// ## (req.body.username and req.body.password)
 
 router.post('/:serviceKey', function (req, res, next) {
 
@@ -57,6 +53,7 @@ router.post('/:serviceKey', function (req, res, next) {
 
     console.log('Authorizing Application: ' + req.body.app_name + ' with Scope: ' + req.query.scope + ' for Username:' + req.body.username + ' with Password: ' + req.body.password);
 
+    // Call Idp to verify credentials
     internalIdp.verifyCredentials(req.body.username, req.body.password, function (resp) {
 
         if(resp == false) {
@@ -71,7 +68,7 @@ router.post('/:serviceKey', function (req, res, next) {
 
             if (authCode == true) {
 
-
+                // Set User Context to be used in to Mashery AuthorizationCode API call
                 var userContext = {
                     username: req.body.username,
                     identity: resp.identity
@@ -81,7 +78,7 @@ router.post('/:serviceKey', function (req, res, next) {
 
                 mashApi.createAuthorizationCode(req.params.serviceKey,
                     req.query.client_id, req.query.redirect_uri, req.query.scope,
-                    req.body.username, function (resp) {
+                    userContext, function (resp) {
                         var error = '';
                         var code = '';
                         var redirectUri = '';

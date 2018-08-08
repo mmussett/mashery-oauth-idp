@@ -1,5 +1,5 @@
 // Sample OAuth IDP integrating with the Mashery OAuth Accelerator
-// Author: Eurus Kim
+// Author: Mashery SC Team
 //
 // This app is for demo purposes only.
 // Notes: 
@@ -17,6 +17,8 @@
 // 2. Modify the ./properties.js file to add your Mashery area and credential
 //    details.
 // 3. Run 'node app.js'
+//
+// I hate node.js, this needs porting to a maintainable language such as Spring Boot!
 
 
 
