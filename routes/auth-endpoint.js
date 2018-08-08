@@ -78,7 +78,7 @@ router.post('/:serviceKey', function (req, res, next) {
 
                 mashApi.createAuthorizationCode(req.params.serviceKey,
                     req.query.client_id, req.query.redirect_uri, req.query.scope,
-                    userContext, function (resp) {
+                    JSON.stringify(userContext), function (resp) {
                         var error = '';
                         var code = '';
                         var redirectUri = '';
