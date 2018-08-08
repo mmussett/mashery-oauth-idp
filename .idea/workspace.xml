@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fe4490ba-13c0-428d-87a2-559ace3ae5ba" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/idp/internal.js" beforeDir="false" afterPath="$PROJECT_DIR$/idp/internal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/auth-endpoint.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/auth-endpoint.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -84,7 +81,7 @@
       <file leaf-file-name="server.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
+            <state relative-caret-position="-915">
               <caret line="20" column="85" selection-start-line="20" selection-start-column="85" selection-end-line="20" selection-end-column="85" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -181,16 +178,6 @@
             <path>
               <item name="mashery-oauth-idp" type="b2602c69:ProjectViewProjectNode" />
               <item name="mashery-oauth-idp" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mashery-oauth-idp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mashery-oauth-idp" type="462c0819:PsiDirectoryNode" />
-              <item name="routes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mashery-oauth-idp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mashery-oauth-idp" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -283,7 +270,7 @@
       <updated>1531129605635</updated>
       <workItem from="1531129608809" duration="251000" />
       <workItem from="1531129872395" duration="48436000" />
-      <workItem from="1533569138739" duration="8006000" />
+      <workItem from="1533569138739" duration="8551000" />
     </task>
     <task id="LOCAL-00001" summary="Base">
       <created>1531131635109</created>
@@ -348,11 +335,18 @@
       <option name="project" value="LOCAL" />
       <updated>1533678111385</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="mapped user context">
+      <created>1533710498547</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1533710498547</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56693000" />
+    <option name="totallyTimeSpent" value="57238000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1177" extended-state="0" />
@@ -401,7 +395,8 @@
     <MESSAGE value="Bug" />
     <MESSAGE value="401 now handled.&#10;Set user context on authorisation token call to Mashery API." />
     <MESSAGE value="Port set to 8080" />
-    <option name="LAST_COMMIT_MESSAGE" value="Port set to 8080" />
+    <MESSAGE value="mapped user context" />
+    <option name="LAST_COMMIT_MESSAGE" value="mapped user context" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -658,7 +653,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
+        <state relative-caret-position="-915">
           <caret line="20" column="85" selection-start-line="20" selection-start-column="85" selection-end-line="20" selection-end-column="85" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
