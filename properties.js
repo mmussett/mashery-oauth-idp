@@ -42,7 +42,7 @@ var props = {
 	clientServiceKey: 'hsms4pts7q6jwq75w45vqc39',
 	clientApiKey: 'u3enehuynfzu37kmhe9gddu2',
 	clientApiSecret: 'y8RavR8PWF',
-    useMashlocal: true
+    useMashlocal: false
 }
 
 // Do not change anything below this line
