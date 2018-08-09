@@ -34,8 +34,8 @@ var props = {
 	oauthServerTokenUri: '/oauth/v2/token',
 	oauthTokenTesterUri: '/client/tester',
 	oauthTokenStatusUri: '/client/status',
-	clientServiceKey: 'gykda32cdzsu257fyju9x52m',
-	clientApiKey: 'kvc38rq4shbv23u36c2r9ekk',
+	clientServiceKey: '3qfm26jub8uscy6jygqrp6pm',
+	clientApiKey: 'sabs3m29h4gccfxdpqvcnx4j',
 	clientApiSecret: '4gbXPw7YTV',
 }
 
